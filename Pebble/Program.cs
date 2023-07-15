@@ -32,6 +32,24 @@ namespace Pebble
             moves = 0;
         }
 
+        public int getFile(int squareIndex)
+        {
+            if ((squareIndex & 0x88) != 0)
+            {
+                return -1;  //Not on Board
+            }
+            return (squareIndex & 7) + 1;
+        }
+
+        public int getRank(int squareIndex)
+        {
+            if ((squareIndex & 0x88) != 0)
+            {
+                return -1;  //Not on Board
+            }
+            return (squareIndex >> 4) + 1;
+        }
+
         public string getFEN()
         {
             string position = "";
@@ -221,11 +239,15 @@ namespace Pebble
         static void Main(string[] args)
         {
             string startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-
+            int squareIndex = 0;
+            int rank = 0;
             Console.WriteLine("What position do you want to set up to play?");
 
             Board newGame = new Board();
-            newGame.setBoard(startingPosition);
+            Console.WriteLine("Input a square to see what rank it's on");
+            squareIndex = Int32.Parse(Console.ReadLine());
+            rank = newGame.getFile(squareIndex);
+            Console.WriteLine(rank);
 
 
             Console.ReadKey();
