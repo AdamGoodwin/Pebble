@@ -4,6 +4,7 @@ namespace Pebble
 {
     public enum Pieces
     {
+        Empty = 0,
         Pawn = 1,
         Knight = 2,
         King = 3,
@@ -12,7 +13,7 @@ namespace Pebble
         Queen = 7,
         White = 8,
         Black = 16
-    }
+    };
 
     public class Board
     {
@@ -29,6 +30,120 @@ namespace Pebble
             enPassantSquare = -1;
             halfMoves = 0;
             moves = 0;
+        }
+
+        public string getFEN()
+        {
+            string position = "";
+            int piece = 0;
+            int numberEmpty = 0;
+
+            for (int squareIndex = 112; squareIndex <= 120; squareIndex++)
+            {
+                if (squareIndex == 8)
+                {
+                    break;
+                }
+
+                if ((squareIndex & 0x88) != 0)
+                {
+                    if (numberEmpty != 0)
+                    {
+                        position += numberEmpty;
+                        numberEmpty = 0;
+                    }
+
+                    position += "/";
+                    squareIndex -= 25;
+                    continue;
+                }
+
+                if (board[squareIndex] != 0)
+                {
+                    int color = board[squareIndex] & 8;
+                    if (color == (int)Pieces.White)
+                    {
+                        piece = board[squareIndex] - (int)Pieces.White;
+
+                        if (numberEmpty != 0)
+                        {
+                            position += numberEmpty;
+                        }
+
+                        switch (piece)
+                        {
+                            case 1:
+                                position += "P";
+                                numberEmpty = 0;
+                                break;
+                            case 2:
+                                position += "N";
+                                numberEmpty = 0;
+                                break;
+                            case 3:
+                                position += "K";
+                                numberEmpty = 0;
+                                break;
+                            case 5:
+                                position += "B";
+                                numberEmpty = 0;
+                                break;
+                            case 6:
+                                position += "R";
+                                numberEmpty = 0;
+                                break;
+                            case 7:
+                                position += "Q";
+                                numberEmpty = 0;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        piece = board[squareIndex] - (int)Pieces.Black;
+
+                        if (numberEmpty != 0)
+                        {
+                            position += numberEmpty;
+                        }
+                            
+                        switch (piece)
+                        {
+                            case 1:
+                                position += "p";
+                                numberEmpty = 0;
+                                break;
+                            case 2:
+                                position += "n";
+                                numberEmpty = 0;
+                                break;
+                            case 3:
+                                position += "k";
+                                numberEmpty = 0;
+                                break;
+                            case 5:
+                                position += "b";
+                                numberEmpty = 0;
+                                break;
+                            case 6:
+                                position += "r";
+                                numberEmpty = 0;
+                                break;
+                            case 7:
+                                position += "q";
+                                numberEmpty = 0;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    numberEmpty++;
+                }
+
+            }
+
+            return position;
         }
 
         public void setBoard(string position)
@@ -111,6 +226,9 @@ namespace Pebble
 
             Board newGame = new Board();
             newGame.setBoard(startingPosition);
+
+
+            Console.ReadKey();
         }
     }
 }
