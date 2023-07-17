@@ -39,6 +39,8 @@
 
         public int[] kingDelta = { 15, 16, 17, -1, 1, -17, -16, -15 };
         public int[] knightDelta = { 14, 31, 33, 18, -14, -31, -33, -18 };
+        public int[] bishopDelta = { 15, 17, -17, -15, 0, 0, 0, 0 };
+        public int[] rookDelta = { 16, -1, 1, -16, 0, 0, 0, 0 };
 
         public Board()
         {
@@ -55,6 +57,7 @@
             int colorToMove = 0;
             int kingSquare = -1;
             int knightSquare = -1;
+            int bishopSquare = -1;
 
             if (sideToMove == 1)
             {
@@ -63,6 +66,50 @@
             else
             {
                 colorToMove = (int)Pieces.Black;
+            }
+
+            //Bishops for each side
+            if ((colorToMove & (int)Pieces.White) != 0)
+            {//White Bishops
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Bishop + (int)Pieces.White)
+                    {
+                        bishopSquare = squareIndex;
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            int bishopDestination = bishopSquare + bishopDelta[i];
+                            while ((bishopDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, bishopSquare, bishopDestination, 0);
+                                movesList.Add(move);
+                                bishopDestination += bishopDelta[i];
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {//Black Bishops
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Bishop + (int)Pieces.Black)
+                    {
+                        bishopSquare = squareIndex;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            int bishopDestination = bishopSquare + bishopDelta[i];
+                            while ((bishopDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, bishopSquare, bishopDestination, 0);
+                                movesList.Add(move);
+                                bishopDestination += bishopDelta[i];
+                            }
+                        }
+                    }
+                }
             }
 
             //Knights for each side
@@ -369,36 +416,48 @@
 
             moveList = newGame.generateMoves();
 
-            Console.WriteLine(moveList[0].moveType);
             Console.WriteLine(moveList[0].start);
             Console.WriteLine(moveList[0].destination);
-            Console.WriteLine(moveList[0].capture);
 
-            Console.WriteLine(moveList[1].moveType);
             Console.WriteLine(moveList[1].start);
             Console.WriteLine(moveList[1].destination);
-            Console.WriteLine(moveList[1].capture);
-
-            Console.WriteLine(moveList[2].moveType);
+            
             Console.WriteLine(moveList[2].start);
             Console.WriteLine(moveList[2].destination);
-            Console.WriteLine(moveList[2].capture);
-
-            Console.WriteLine(moveList[3].moveType);
+            
             Console.WriteLine(moveList[3].start);
             Console.WriteLine(moveList[3].destination);
-            Console.WriteLine(moveList[3].capture);
 
-            Console.WriteLine(moveList[4].moveType);
             Console.WriteLine(moveList[4].start);
             Console.WriteLine(moveList[4].destination);
-            Console.WriteLine(moveList[4].capture);
-
-            Console.WriteLine(moveList[5].moveType);
+            
             Console.WriteLine(moveList[5].start);
             Console.WriteLine(moveList[5].destination);
-            Console.WriteLine(moveList[5].capture);
-
+            
+            Console.WriteLine(moveList[6].start);
+            Console.WriteLine(moveList[6].destination);
+            
+            Console.WriteLine(moveList[7].start);
+            Console.WriteLine(moveList[7].destination);
+            
+            Console.WriteLine(moveList[8].start);
+            Console.WriteLine(moveList[8].destination);
+            
+            Console.WriteLine(moveList[9].start);
+            Console.WriteLine(moveList[9].destination);
+            
+            Console.WriteLine(moveList[10].start);
+            Console.WriteLine(moveList[10].destination);
+            
+            Console.WriteLine(moveList[11].start);
+            Console.WriteLine(moveList[11].destination);
+            
+            Console.WriteLine(moveList[12].start);
+            Console.WriteLine(moveList[12].destination);
+            
+            Console.WriteLine(moveList[13].start);
+            Console.WriteLine(moveList[13].destination);
+            
             Console.ReadKey();
         }
     }
