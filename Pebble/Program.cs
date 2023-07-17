@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pebble
+﻿namespace Pebble
 {
     public enum Pieces
     {
@@ -15,6 +13,22 @@ namespace Pebble
         Black = 16
     };
 
+    public class Move
+    {
+        public int moveType;        //Type of move...Ordinary, Capture, En Passant, Kingside Castle, Queenside Castle, Promotion to Queen - Rook - Bishop - Knight
+        public int start;           //Starting square
+        public int destination;     //Ending square
+        public int capture;         //What was captured?
+
+        public Move(int moveType, int start, int destination, int capture)
+        {
+            this.moveType = moveType;
+            this.start = start;
+            this.destination = destination;
+            this.capture = capture;
+        }
+    }
+
     public class Board
     {
         int[] board;
@@ -23,6 +37,9 @@ namespace Pebble
         int halfMoves;
         int moves;
 
+        public int[] kingDelta = { 15, 16, 17, -1, 1, -17, -16, -15 };
+        public int[] knightDelta = { 14, 31, 33, 18, -14, -31, -33, -18 };
+
         public Board()
         {
             board = new int[128];
@@ -30,6 +47,111 @@ namespace Pebble
             enPassantSquare = -1;
             halfMoves = 0;
             moves = 0;
+        }
+
+        public List<Move> generateMoves()
+        {
+            List<Move> movesList = new List<Move>();
+            int colorToMove = 0;
+            int kingSquare = -1;
+            int knightSquare = -1;
+
+            if (sideToMove == 1)
+            {
+                colorToMove = (int)Pieces.White;
+            }
+            else
+            {
+                colorToMove = (int)Pieces.Black;
+            }
+
+            //Knights for each side
+            if ((colorToMove & (int)Pieces.White) != 0)
+            {//White
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Knight + (int)Pieces.White)
+                    {
+                        knightSquare = squareIndex;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            int knightDestination = knightSquare + knightDelta[i];
+                            if ((knightDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, knightSquare, knightDestination, 0);
+                                movesList.Add(move);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {//Black
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Knight + (int)Pieces.Black)
+                    {
+                        knightSquare = squareIndex;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            int knightDestination = knightSquare + knightDelta[i];
+                            if ((knightDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, knightSquare, knightDestination, 0);
+                                movesList.Add(move);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Kings for each side
+            if ((colorToMove & (int)Pieces.White) != 0)
+            {//Looking for the White King
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.King + (int)Pieces.White)
+                    {
+                        kingSquare = squareIndex;
+                        break;
+                    }
+                }
+
+                for(int i = 0; i < 8; i++)
+                {
+                    int kingDestination = kingSquare + kingDelta[i];
+                    if ((kingDestination & 0x88) == 0)
+                    {
+                        Move move = new Move(0, kingSquare, kingDestination, 0);
+                        movesList.Add(move);
+                    }
+                }
+            }
+            else
+            {//Looking for the Black King
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.King + (int)Pieces.Black)
+                    {
+                        kingSquare = squareIndex;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    int kingDestination = kingSquare + kingDelta[i];
+                    if ((kingDestination & 0x88) == 0)
+                    {
+                        Move move = new Move(0, kingSquare, kingDestination, 0);
+                        movesList.Add(move);
+                    }
+                }
+            }
+            
+            return movesList; 
         }
 
         public int getFile(int squareIndex)
@@ -239,16 +361,43 @@ namespace Pebble
         static void Main(string[] args)
         {
             string startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-            int squareIndex = 0;
-            int rank = 0;
+            List<Move> moveList = new List<Move>();
             Console.WriteLine("What position do you want to set up to play?");
 
             Board newGame = new Board();
-            Console.WriteLine("Input a square to see what rank it's on");
-            squareIndex = Int32.Parse(Console.ReadLine());
-            rank = newGame.getFile(squareIndex);
-            Console.WriteLine(rank);
+            newGame.setBoard(startingPosition);
 
+            moveList = newGame.generateMoves();
+
+            Console.WriteLine(moveList[0].moveType);
+            Console.WriteLine(moveList[0].start);
+            Console.WriteLine(moveList[0].destination);
+            Console.WriteLine(moveList[0].capture);
+
+            Console.WriteLine(moveList[1].moveType);
+            Console.WriteLine(moveList[1].start);
+            Console.WriteLine(moveList[1].destination);
+            Console.WriteLine(moveList[1].capture);
+
+            Console.WriteLine(moveList[2].moveType);
+            Console.WriteLine(moveList[2].start);
+            Console.WriteLine(moveList[2].destination);
+            Console.WriteLine(moveList[2].capture);
+
+            Console.WriteLine(moveList[3].moveType);
+            Console.WriteLine(moveList[3].start);
+            Console.WriteLine(moveList[3].destination);
+            Console.WriteLine(moveList[3].capture);
+
+            Console.WriteLine(moveList[4].moveType);
+            Console.WriteLine(moveList[4].start);
+            Console.WriteLine(moveList[4].destination);
+            Console.WriteLine(moveList[4].capture);
+
+            Console.WriteLine(moveList[5].moveType);
+            Console.WriteLine(moveList[5].start);
+            Console.WriteLine(moveList[5].destination);
+            Console.WriteLine(moveList[5].capture);
 
             Console.ReadKey();
         }
