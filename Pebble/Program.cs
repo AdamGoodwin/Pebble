@@ -41,6 +41,7 @@
         public int[] knightDelta = { 14, 31, 33, 18, -14, -31, -33, -18 };
         public int[] bishopDelta = { 15, 17, -17, -15, 0, 0, 0, 0 };
         public int[] rookDelta = { 16, -1, 1, -16, 0, 0, 0, 0 };
+        public int[] queenDelta = { 15, 16, 17, -1, 1, -17, -16, -15 };
 
         public Board()
         {
@@ -58,6 +59,8 @@
             int kingSquare = -1;
             int knightSquare = -1;
             int bishopSquare = -1;
+            int rookSquare = -1;
+            int queenSquare = -1;
 
             if (sideToMove == 1)
             {
@@ -66,6 +69,94 @@
             else
             {
                 colorToMove = (int)Pieces.Black;
+            }
+
+            //Queen for each side
+            if ((colorToMove & (int)Pieces.White) != 0)
+            {//White Queen
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Queen + (int)Pieces.White)
+                    {
+                        queenSquare = squareIndex;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            int queenDestination = queenSquare + queenDelta[i];
+                            while ((queenDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, queenSquare, queenDestination, 0);
+                                movesList.Add(move);
+                                queenDestination += queenDelta[i];
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {//Black Queen
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Queen + (int)Pieces.Black)
+                    {
+                        queenSquare = squareIndex;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            int queenDestination = queenSquare + queenDelta[i];
+                            while ((queenDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, queenSquare, queenDestination, 0);
+                                movesList.Add(move);
+                                queenDestination += queenDelta[i];
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Rooks for each side
+            if ((colorToMove & (int)Pieces.White) != 0)
+            {//White Rooks
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Rook + (int)Pieces.White)
+                    {
+                        rookSquare = squareIndex;
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            int rookDestination = rookSquare + rookDelta[i];
+                            while ((rookDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, rookSquare, rookDestination, 0);
+                                movesList.Add(move);
+                                rookDestination += rookDelta[i];
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {//Black Rooks
+                for (int squareIndex = 0; squareIndex < 120; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Rook + (int)Pieces.Black)
+                    {
+                        rookSquare = squareIndex;
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            int rookDestination = rookSquare + rookDelta[i];
+                            while ((rookDestination & 0x88) == 0)
+                            {
+                                Move move = new Move(0, rookSquare, rookDestination, 0);
+                                movesList.Add(move);
+                                rookDestination += rookDelta[i];
+                            }
+                        }
+                    }
+                }
             }
 
             //Bishops for each side
@@ -416,47 +507,12 @@
 
             moveList = newGame.generateMoves();
 
-            Console.WriteLine(moveList[0].start);
-            Console.WriteLine(moveList[0].destination);
-
-            Console.WriteLine(moveList[1].start);
-            Console.WriteLine(moveList[1].destination);
+            for (int i = 0; i < 21; i++)
+            {
+                Console.WriteLine(moveList[i].start);
+                Console.WriteLine(moveList[i].destination);
+            }
             
-            Console.WriteLine(moveList[2].start);
-            Console.WriteLine(moveList[2].destination);
-            
-            Console.WriteLine(moveList[3].start);
-            Console.WriteLine(moveList[3].destination);
-
-            Console.WriteLine(moveList[4].start);
-            Console.WriteLine(moveList[4].destination);
-            
-            Console.WriteLine(moveList[5].start);
-            Console.WriteLine(moveList[5].destination);
-            
-            Console.WriteLine(moveList[6].start);
-            Console.WriteLine(moveList[6].destination);
-            
-            Console.WriteLine(moveList[7].start);
-            Console.WriteLine(moveList[7].destination);
-            
-            Console.WriteLine(moveList[8].start);
-            Console.WriteLine(moveList[8].destination);
-            
-            Console.WriteLine(moveList[9].start);
-            Console.WriteLine(moveList[9].destination);
-            
-            Console.WriteLine(moveList[10].start);
-            Console.WriteLine(moveList[10].destination);
-            
-            Console.WriteLine(moveList[11].start);
-            Console.WriteLine(moveList[11].destination);
-            
-            Console.WriteLine(moveList[12].start);
-            Console.WriteLine(moveList[12].destination);
-            
-            Console.WriteLine(moveList[13].start);
-            Console.WriteLine(moveList[13].destination);
             
             Console.ReadKey();
         }
