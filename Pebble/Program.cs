@@ -1,5 +1,12 @@
 ﻿namespace Pebble
 {
+    public enum CastlingRights
+    {
+        castleNone = 0,
+        castleKingside = 1,
+        castleQueenside = 2,
+        castleBoth = 3
+    };
     public enum Pieces
     {
         Empty = 0,
@@ -34,6 +41,8 @@
         int[] board;
         int sideToMove;
         int enPassantSquare;
+        int whiteCastlingRights;
+        int blackCastlingRights;
         int halfMoves;
         int moves;
 
