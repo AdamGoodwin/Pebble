@@ -152,9 +152,13 @@
                             int queenDestination = queenSquare + queenDelta[i];
                             while ((queenDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, queenSquare, queenDestination, 0);
-                                movesList.Add(move);
-                                queenDestination += queenDelta[i];
+                                if ((board[queenDestination] != (int)Pieces.Empty) && (board[queenDestination] & (int)Pieces.Black) != 0)
+                                {
+                                    if(board[queenDestination] & (int)Pieces)
+                                    Move move = new Move(0, queenSquare, queenDestination, 0);
+                                    movesList.Add(move);
+                                    queenDestination += queenDelta[i];
+                                }
                             }
                         }
                     }
