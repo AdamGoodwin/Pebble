@@ -51,6 +51,8 @@
         public int[] bishopDelta = { 15, 17, -17, -15, 0, 0, 0, 0 };
         public int[] rookDelta = { 16, -1, 1, -16, 0, 0, 0, 0 };
         public int[] queenDelta = { 15, 16, 17, -1, 1, -17, -16, -15 };
+        public int[] whitePawnDelta = { 16, 32, 15, 17, 0, 0, 0, 0 };
+        public int[] blackPawnDelta = { -16, -32, -15, -17, 0, 0, 0, 0 };
 
         public Board()
         {
@@ -70,6 +72,8 @@
             int bishopSquare = -1;
             int rookSquare = -1;
             int queenSquare = -1;
+            int whitePawnSquare = -1;
+            int blackPawnSquare = -1;
 
             if (sideToMove == 1)
             {
@@ -78,6 +82,60 @@
             else
             {
                 colorToMove = (int)Pieces.Black;
+            }
+
+            //Pawns for each side
+            if ((colorToMove & (int)Pieces.White) != 0)
+            {//White Pawns
+                for (int squareIndex = 16; squareIndex < 104; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Pawn + (int)Pieces.White)
+                    {
+                        whitePawnSquare = squareIndex;
+                        int rank = getRank(squareIndex);
+                        if (rank == 2)
+                        {
+                            for (int i = 0; i <= 1; i++)
+                            {
+                                int pawnDestination = whitePawnSquare + whitePawnDelta[i];
+                                Move move = new Move(0, whitePawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                            }
+                        }
+                        else
+                        {
+                            int pawnDestination = whitePawnSquare + whitePawnDelta[1];
+                            Move move = new Move(0, whitePawnSquare, pawnDestination, 0);
+                            movesList.Add(move);
+                        }
+                    }
+                }
+            }
+            else
+            {//Black Pawns
+                for (int squareIndex = 16; squareIndex < 104; squareIndex++)
+                {
+                    if (board[squareIndex] == (int)Pieces.Pawn + (int)Pieces.Black)
+                    {
+                        blackPawnSquare = squareIndex;
+                        int rank = getRank(squareIndex);
+                        if (rank == 7)
+                        {
+                            for (int i = 0; i <= 1; i++)
+                            {
+                                int pawnDestination = blackPawnSquare + blackPawnDelta[i];
+                                Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                            }
+                        }
+                        else
+                        {
+                            int pawnDestination = blackPawnSquare + blackPawnDelta[1];
+                            Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
+                            movesList.Add(move);
+                        }
+                    }
+                }
             }
 
             //Queen for each side
@@ -516,7 +574,7 @@
 
             moveList = newGame.generateMoves();
 
-            for (int i = 0; i < 21; i++)
+            for (int i = 0; i < 32; i++)
             {
                 Console.WriteLine(moveList[i].start);
                 Console.WriteLine(moveList[i].destination);
