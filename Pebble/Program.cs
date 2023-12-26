@@ -152,10 +152,42 @@
                             int queenDestination = queenSquare + queenDelta[i];
                             while ((queenDestination & 0x88) == 0)
                             {
-                                if ((board[queenDestination] != (int)Pieces.Empty) && (board[queenDestination] & (int)Pieces.Black) != 0)
+                                Move move;
+                                if ((board[queenDestination] != (int)Pieces.Empty))
                                 {
-                                    if(board[queenDestination] & (int)Pieces)
-                                    Move move = new Move(0, queenSquare, queenDestination, 0);
+                                    if ((board[queenDestination] & (int)Pieces.Black) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[queenDestination])
+                                        {
+                                            case (int)Pieces.Black + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move(0, queenSquare, queenDestination, capturedPiece);
+                                        movesList.Add(move);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break; //We've hit a piece of the same color
+                                    }
+                                }
+                                else //Square is empty
+                                {
+                                    move = new Move(0, queenSquare, queenDestination, 0);
                                     movesList.Add(move);
                                     queenDestination += queenDelta[i];
                                 }
@@ -177,9 +209,45 @@
                             int queenDestination = queenSquare + queenDelta[i];
                             while ((queenDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, queenSquare, queenDestination, 0);
-                                movesList.Add(move);
-                                queenDestination += queenDelta[i];
+                                Move move;
+                                if ((board[queenDestination] != (int)Pieces.Empty))
+                                {
+                                    if ((board[queenDestination] & (int)Pieces.White) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[queenDestination])
+                                        {
+                                            case (int)Pieces.White + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move(0, queenSquare, queenDestination, capturedPiece);
+                                        movesList.Add(move);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break; //We've hit a piece of the same color
+                                    }
+                                }
+                                else //Square is empty
+                                {
+                                    move = new Move(0, queenSquare, queenDestination, 0);
+                                    movesList.Add(move);
+                                    queenDestination += queenDelta[i];
+                                }
                             }
                         }
                     }
@@ -569,7 +637,7 @@
     {
         static void Main(string[] args)
         {
-            string startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+            string startingPosition = "7k/8/1q3b2/3r4/2BQ2B1/3B4/1R3n2/K7";
             List<Move> moveList = new List<Move>();
             Console.WriteLine("What position do you want to set up to play?");
 
@@ -578,7 +646,7 @@
 
             moveList = newGame.generateMoves();
 
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine(moveList[i].start);
                 Console.WriteLine(moveList[i].destination);
