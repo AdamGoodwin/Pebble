@@ -20,9 +20,22 @@
         Black = 16
     };
 
+    public enum MoveType
+    {
+        Regular = 0,
+        Capture,
+        EnPassant,
+        KingsideCastle,
+        QueensideCastle,
+        PromoteQueen,
+        PromoteRook,
+        PromoteBishop,
+        PromoteKnight
+    };
+
     public class Move
     {
-        public int moveType;        //Type of move...Ordinary, Capture, En Passant, Kingside Castle, Queenside Castle, Promotion to Queen - Rook - Bishop - Knight
+        public int moveType;        //Type of move...Regular, Capture, En Passant, Kingside Castle, Queenside Castle, Promotion to Queen - Rook - Bishop - Knight
         public int start;           //Starting square
         public int destination;     //Ending square
         public int capture;         //What was captured?
@@ -176,7 +189,7 @@
                                                 capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
                                                 break;
                                         }
-                                        move = new Move(0, queenSquare, queenDestination, capturedPiece);
+                                        move = new Move((int)MoveType.Capture, queenSquare, queenDestination, capturedPiece);
                                         movesList.Add(move);
                                         break;
                                     }
@@ -233,7 +246,7 @@
                                                 capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
                                                 break;
                                         }
-                                        move = new Move(0, queenSquare, queenDestination, capturedPiece);
+                                        move = new Move((int)MoveType.Capture, queenSquare, queenDestination, capturedPiece);
                                         movesList.Add(move);
                                         break;
                                     }
@@ -268,9 +281,45 @@
                             int rookDestination = rookSquare + rookDelta[i];
                             while ((rookDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, rookSquare, rookDestination, 0);
-                                movesList.Add(move);
-                                rookDestination += rookDelta[i];
+                                Move move;
+                                if ((board[rookDestination] != (int)Pieces.Empty))
+                                {
+                                    if ((board[rookDestination] & (int)Pieces.Black) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[rookDestination])
+                                        {
+                                            case (int)Pieces.Black + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move((int)MoveType.Capture, rookSquare, rookDestination, capturedPiece);
+                                        movesList.Add(move);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break; //We've hit a piece of the same color
+                                    }
+                                }
+                                else //Square is empty
+                                {
+                                    move = new Move(0, rookSquare, rookDestination, 0);
+                                    movesList.Add(move);
+                                    rookDestination += rookDelta[i];
+                                }
                             }
                         }
                     }
@@ -289,9 +338,45 @@
                             int rookDestination = rookSquare + rookDelta[i];
                             while ((rookDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, rookSquare, rookDestination, 0);
-                                movesList.Add(move);
-                                rookDestination += rookDelta[i];
+                                Move move;
+                                if ((board[rookDestination] != (int)Pieces.Empty))
+                                {
+                                    if ((board[rookDestination] & (int)Pieces.White) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[rookDestination])
+                                        {
+                                            case (int)Pieces.White + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move((int)MoveType.Capture, rookSquare, rookDestination, capturedPiece);
+                                        movesList.Add(move);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break; //We've hit a piece of the same color
+                                    }
+                                }
+                                else //Square is empty
+                                {
+                                    move = new Move(0, rookSquare, rookDestination, 0);
+                                    movesList.Add(move);
+                                    rookDestination += rookDelta[i];
+                                }
                             }
                         }
                     }
@@ -312,9 +397,45 @@
                             int bishopDestination = bishopSquare + bishopDelta[i];
                             while ((bishopDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, bishopSquare, bishopDestination, 0);
-                                movesList.Add(move);
-                                bishopDestination += bishopDelta[i];
+                                Move move;
+                                if ((board[bishopDestination] != (int)Pieces.Empty))
+                                {
+                                    if ((board[bishopDestination] & (int)Pieces.Black) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[bishopDestination])
+                                        {
+                                            case (int)Pieces.Black + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move((int)MoveType.Capture, bishopSquare, bishopDestination, capturedPiece);
+                                        movesList.Add(move);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break; //We've hit a piece of the same color
+                                    }
+                                }
+                                else //Square is empty
+                                {
+                                    move = new Move(0, bishopSquare, bishopDestination, 0);
+                                    movesList.Add(move);
+                                    bishopDestination += bishopDelta[i];
+                                }
                             }
                         }
                     }
@@ -333,9 +454,45 @@
                             int bishopDestination = bishopSquare + bishopDelta[i];
                             while ((bishopDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, bishopSquare, bishopDestination, 0);
-                                movesList.Add(move);
-                                bishopDestination += bishopDelta[i];
+                                Move move;
+                                if ((board[bishopDestination] != (int)Pieces.Empty))
+                                {
+                                    if ((board[bishopDestination] & (int)Pieces.White) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[bishopDestination])
+                                        {
+                                            case (int)Pieces.White + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move((int)MoveType.Capture, bishopSquare, bishopDestination, capturedPiece);
+                                        movesList.Add(move);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break; //We've hit a piece of the same color
+                                    }
+                                }
+                                else //Square is empty
+                                {
+                                    move = new Move(0, bishopSquare, bishopDestination, 0);
+                                    movesList.Add(move);
+                                    bishopDestination += bishopDelta[i];
+                                }
                             }
                         }
                     }
