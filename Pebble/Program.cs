@@ -111,15 +111,32 @@
                             for (int i = 0; i <= 1; i++)
                             {
                                 int pawnDestination = whitePawnSquare + whitePawnDelta[i];
-                                Move move = new Move(0, whitePawnSquare, pawnDestination, 0);
+                                Move move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
                                 movesList.Add(move);
                             }
                         }
                         else
                         {
                             int pawnDestination = whitePawnSquare + whitePawnDelta[1];
-                            Move move = new Move(0, whitePawnSquare, pawnDestination, 0);
+                            Move move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
                             movesList.Add(move);
+                        }
+                        if (rank == 5)
+                        {
+                            if (enPassantSquare - whitePawnSquare == 15)
+                            {
+                                int pawnDestination = whitePawnSquare + whitePawnDelta[3];
+                                int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                            if (enPassantSquare - whitePawnSquare == 17)
+                            {
+                                int pawnDestination = whitePawnSquare + whitePawnDelta[4];
+                                int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
                         }
                     }
                 }
