@@ -687,25 +687,25 @@
                         Move move;
                         if (board[kingDestination] != (int)Pieces.Empty)
                         {
-                            if ((board[kingDestination] & (int)Pieces.Black) != 0)
+                            if ((board[kingDestination] & (int)Pieces.White) != 0)
                             {
                                 int capturedPiece = 0;
                                 switch (board[kingDestination])
                                 {
-                                    case (int)Pieces.Black + (int)Pieces.Pawn:
-                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                    case (int)Pieces.White + (int)Pieces.Pawn:
+                                        capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
                                         break;
-                                    case (int)Pieces.Black + (int)Pieces.Knight:
-                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                    case (int)Pieces.White + (int)Pieces.Knight:
+                                        capturedPiece = (int)Pieces.White + (int)Pieces.Knight;
                                         break;
-                                    case (int)Pieces.Black + (int)Pieces.Bishop:
-                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                    case (int)Pieces.White + (int)Pieces.Bishop:
+                                        capturedPiece = (int)Pieces.White + (int)Pieces.Bishop;
                                         break;
-                                    case (int)Pieces.Black + (int)Pieces.Rook:
-                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                    case (int)Pieces.White + (int)Pieces.Rook:
+                                        capturedPiece = (int)Pieces.White + (int)Pieces.Rook;
                                         break;
-                                    case (int)Pieces.Black + (int)Pieces.Queen:
-                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                    case (int)Pieces.White + (int)Pieces.Queen:
+                                        capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
                                         break;
                                 }
                                 move = new Move((int)MoveType.Capture, kingSquare, kingDestination, capturedPiece);
