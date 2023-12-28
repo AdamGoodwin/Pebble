@@ -628,8 +628,43 @@
                     int kingDestination = kingSquare + kingDelta[i];
                     if ((kingDestination & 0x88) == 0)
                     {
-                        Move move = new Move(0, kingSquare, kingDestination, 0);
-                        movesList.Add(move);
+                        Move move;
+                        if (board[kingDestination] != (int)Pieces.Empty)
+                        {
+                            if ((board[kingDestination] & (int)Pieces.Black) != 0)
+                            {
+                                int capturedPiece = 0;
+                                switch (board[kingDestination])
+                                {
+                                    case (int)Pieces.Black + (int)Pieces.Pawn:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Knight:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Bishop:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Rook:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Queen:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                        break;
+                                }
+                                move = new Move((int)MoveType.Capture, kingSquare, kingDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            move = new Move((int)MoveType.Regular, kingSquare, kingDestination, 0);
+                            movesList.Add(move);
+                        }
                     }
                 }
             }
@@ -649,8 +684,43 @@
                     int kingDestination = kingSquare + kingDelta[i];
                     if ((kingDestination & 0x88) == 0)
                     {
-                        Move move = new Move(0, kingSquare, kingDestination, 0);
-                        movesList.Add(move);
+                        Move move;
+                        if (board[kingDestination] != (int)Pieces.Empty)
+                        {
+                            if ((board[kingDestination] & (int)Pieces.Black) != 0)
+                            {
+                                int capturedPiece = 0;
+                                switch (board[kingDestination])
+                                {
+                                    case (int)Pieces.Black + (int)Pieces.Pawn:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Knight:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Bishop:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Rook:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                        break;
+                                    case (int)Pieces.Black + (int)Pieces.Queen:
+                                        capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                        break;
+                                }
+                                move = new Move((int)MoveType.Capture, kingSquare, kingDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            move = new Move((int)MoveType.Regular, kingSquare, kingDestination, 0);
+                            movesList.Add(move);
+                        }
                     }
                 }
             }
