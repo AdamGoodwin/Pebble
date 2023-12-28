@@ -200,7 +200,7 @@
                                 }
                                 else //Square is empty
                                 {
-                                    move = new Move(0, queenSquare, queenDestination, 0);
+                                    move = new Move((int)MoveType.Regular, queenSquare, queenDestination, 0);
                                     movesList.Add(move);
                                     queenDestination += queenDelta[i];
                                 }
@@ -257,7 +257,7 @@
                                 }
                                 else //Square is empty
                                 {
-                                    move = new Move(0, queenSquare, queenDestination, 0);
+                                    move = new Move((int)MoveType.Regular, queenSquare, queenDestination, 0);
                                     movesList.Add(move);
                                     queenDestination += queenDelta[i];
                                 }
@@ -316,7 +316,7 @@
                                 }
                                 else //Square is empty
                                 {
-                                    move = new Move(0, rookSquare, rookDestination, 0);
+                                    move = new Move((int)MoveType.Regular, rookSquare, rookDestination, 0);
                                     movesList.Add(move);
                                     rookDestination += rookDelta[i];
                                 }
@@ -373,7 +373,7 @@
                                 }
                                 else //Square is empty
                                 {
-                                    move = new Move(0, rookSquare, rookDestination, 0);
+                                    move = new Move((int)MoveType.Regular, rookSquare, rookDestination, 0);
                                     movesList.Add(move);
                                     rookDestination += rookDelta[i];
                                 }
@@ -432,7 +432,7 @@
                                 }
                                 else //Square is empty
                                 {
-                                    move = new Move(0, bishopSquare, bishopDestination, 0);
+                                    move = new Move((int)MoveType.Regular, bishopSquare, bishopDestination, 0);
                                     movesList.Add(move);
                                     bishopDestination += bishopDelta[i];
                                 }
@@ -489,7 +489,7 @@
                                 }
                                 else //Square is empty
                                 {
-                                    move = new Move(0, bishopSquare, bishopDestination, 0);
+                                    move = new Move((int)MoveType.Regular, bishopSquare, bishopDestination, 0);
                                     movesList.Add(move);
                                     bishopDestination += bishopDelta[i];
                                 }
@@ -513,8 +513,43 @@
                             int knightDestination = knightSquare + knightDelta[i];
                             if ((knightDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, knightSquare, knightDestination, 0);
-                                movesList.Add(move);
+                                Move move;
+                                if (board[knightDestination] != (int)Pieces.Empty)
+                                {
+                                    if ((board[knightDestination] & (int)Pieces.Black) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[knightDestination])
+                                        {
+                                            case (int)Pieces.Black + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.Black + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move((int)MoveType.Capture, knightSquare, knightDestination, capturedPiece);
+                                        movesList.Add(move);
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    move = new Move((int)MoveType.Regular, knightSquare, knightDestination, 0);
+                                    movesList.Add(move);
+                                }
                             }
                         }
                     }
@@ -533,8 +568,43 @@
                             int knightDestination = knightSquare + knightDelta[i];
                             if ((knightDestination & 0x88) == 0)
                             {
-                                Move move = new Move(0, knightSquare, knightDestination, 0);
-                                movesList.Add(move);
+                                Move move;
+                                if (board[knightDestination] != (int)Pieces.Empty)
+                                {
+                                    if ((board[knightDestination] & (int)Pieces.White) != 0)
+                                    {
+                                        int capturedPiece = 0;
+                                        switch (board[knightDestination])
+                                        {
+                                            case (int)Pieces.White + (int)Pieces.Pawn:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Knight:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Knight;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Bishop:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Bishop;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Rook:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Rook;
+                                                break;
+                                            case (int)Pieces.White + (int)Pieces.Queen:
+                                                capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
+                                                break;
+                                        }
+                                        move = new Move((int)MoveType.Capture, knightSquare, knightDestination, capturedPiece);
+                                        movesList.Add(move);
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    move = new Move((int)MoveType.Regular, knightSquare, knightDestination, 0);
+                                    movesList.Add(move);
+                                }
                             }
                         }
                     }
