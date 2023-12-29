@@ -110,16 +110,32 @@
                         {
                             for (int i = 0; i <= 1; i++)
                             {
+                                Move move;
                                 int pawnDestination = whitePawnSquare + whitePawnDelta[i];
-                                Move move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
-                                movesList.Add(move);
+                                if (board[pawnDestination] == (int)Pieces.Empty)
+                                {
+                                    move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
+                                    movesList.Add(move);
+                                }
+                                else //There must be a piece in the way
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
                         {
+                            Move move;
                             int pawnDestination = whitePawnSquare + whitePawnDelta[1];
-                            Move move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
-                            movesList.Add(move);
+                            if (board[pawnDestination] == (int)Pieces.Empty)
+                            {
+                                move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                            }
+                            else //There must be a piece in the way
+                            {
+                                break;
+                            }
                         }
                         if (rank == 5)
                         {
@@ -154,15 +170,46 @@
                             for (int i = 0; i <= 1; i++)
                             {
                                 int pawnDestination = blackPawnSquare + blackPawnDelta[i];
-                                Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
-                                movesList.Add(move);
+                                if(board[pawnDestination] == (int)Pieces.Empty)
+                                {
+                                    Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
+                                    movesList.Add(move);
+                                }
+                                else  //Must have hit a piece in the way
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
                         {
                             int pawnDestination = blackPawnSquare + blackPawnDelta[1];
-                            Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
-                            movesList.Add(move);
+                            if (board[pawnDestination] == (int)Pieces.Empty)
+                            {
+                                Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        if (rank == 4)
+                        {
+                            if (enPassantSquare - blackPawnSquare == -15)
+                            {
+                                int pawnDestination = blackPawnSquare + blackPawnDelta[3];
+                                int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                            if (enPassantSquare - blackPawnSquare == -17)
+                            {
+                                int pawnDestination = blackPawnSquare + blackPawnDelta[4];
+                                int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
                         }
                     }
                 }
