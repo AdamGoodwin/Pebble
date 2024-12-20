@@ -7,6 +7,7 @@
         castleQueenside = 2,
         castleBoth = 3
     };
+   
     public enum Pieces
     {
         Empty = 0,
