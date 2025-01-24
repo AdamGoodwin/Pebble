@@ -1,4 +1,6 @@
-﻿namespace Pebble
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Pebble
 {
     public enum CastlingRights
     {
@@ -109,6 +111,7 @@
                         int rank = getRank(squareIndex);
                         if (rank == 2)
                         {
+                            //Regular Pawn Moves
                             for (int i = 0; i <= 1; i++)
                             {
                                 Move move;
@@ -123,11 +126,23 @@
                                     break;
                                 }
                             }
+
+                            //Captures
+                            for(int i = 2; i <= 3; i++)
+                            {
+                                Move move;
+                                int pawndestination = whitePawnSquare + whitePawnDelta[i];
+                                if ((board[pawndestination] & 0x88) == 0 && (board[pawndestination] & (int)Pieces.Black) != 0)
+                                {
+                                    move = new Move((int)MoveType.Capture, whitePawnSquare, pawndestination, 0);
+                                    movesList.Add(move);
+                                }
+                            }
                         }
                         else if(rank >= 3 && rank <= 6)
                         {
                             Move move;
-                            int pawnDestination = whitePawnSquare + whitePawnDelta[1];
+                            int pawnDestination = whitePawnSquare + whitePawnDelta[0];
                             if (board[pawnDestination] == (int)Pieces.Empty)
                             {
                                 move = new Move((int)MoveType.Regular, whitePawnSquare, pawnDestination, 0);
@@ -138,39 +153,39 @@
                                 break;
                             }
                         }
-                        if (rank == 5)
-                        {
-                            if (enPassantSquare - whitePawnSquare == 15)
-                            {
-                                int pawnDestination = whitePawnSquare + whitePawnDelta[2];
-                                int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
-                                Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
-                                movesList.Add(move);
-                            }
-                            if (enPassantSquare - whitePawnSquare == 17)
-                            {
-                                int pawnDestination = whitePawnSquare + whitePawnDelta[3];
-                                int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
-                                Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
-                                movesList.Add(move);
-                            }
-                        }
-                        if (rank == 7)
-                        {
-                            Move move;
-                            int pawnDestination = whitePawnSquare + whitePawnDelta[0];
-                            if (board[pawnDestination] == (int)Pieces.Empty)
-                            {
-                                move = new Move((int)MoveType.PromoteQueen, whitePawnSquare, pawnDestination, 0);
-                                movesList.Add(move);
-                                move = new Move((int)MoveType.PromoteRook, whitePawnSquare, pawnDestination, 0);
-                                movesList.Add(move);
-                                move = new Move((int)MoveType.PromoteBishop, whitePawnSquare, pawnDestination, 0);
-                                movesList.Add(move);
-                                move = new Move((int)MoveType.PromoteKnight, whitePawnSquare, pawnDestination, 0);
-                                movesList.Add(move);
-                            }
-                        }
+                        //if (rank == 5)
+                        //{
+                        //    if (enPassantSquare - whitePawnSquare == 15)
+                        //    {
+                        //        int pawnDestination = whitePawnSquare + whitePawnDelta[2];
+                        //        int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                        //        Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
+                        //        movesList.Add(move);
+                        //    }
+                        //    if (enPassantSquare - whitePawnSquare == 17)
+                        //    {
+                        //        int pawnDestination = whitePawnSquare + whitePawnDelta[3];
+                        //        int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                        //        Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
+                        //        movesList.Add(move);
+                        //    }
+                        //}
+                        //if (rank == 7)
+                        //{
+                        //    Move move;
+                        //    int pawnDestination = whitePawnSquare + whitePawnDelta[0];
+                        //    if (board[pawnDestination] == (int)Pieces.Empty)
+                        //    {
+                        //        move = new Move((int)MoveType.PromoteQueen, whitePawnSquare, pawnDestination, 0);
+                        //        movesList.Add(move);
+                        //        move = new Move((int)MoveType.PromoteRook, whitePawnSquare, pawnDestination, 0);
+                        //        movesList.Add(move);
+                        //        move = new Move((int)MoveType.PromoteBishop, whitePawnSquare, pawnDestination, 0);
+                        //        movesList.Add(move);
+                        //        move = new Move((int)MoveType.PromoteKnight, whitePawnSquare, pawnDestination, 0);
+                        //        movesList.Add(move);
+                        //    }
+                        //}
                     }
                 }
             }
@@ -198,9 +213,9 @@
                                 }
                             }
                         }
-                        else
+                        else if(rank <= 6 && rank >= 3)
                         {
-                            int pawnDestination = blackPawnSquare + blackPawnDelta[1];
+                            int pawnDestination = blackPawnSquare + blackPawnDelta[0];
                             if (board[pawnDestination] == (int)Pieces.Empty)
                             {
                                 Move move = new Move(0, blackPawnSquare, pawnDestination, 0);
@@ -211,23 +226,23 @@
                                 break;
                             }
                         }
-                        if (rank == 4)
-                        {
-                            if (enPassantSquare - blackPawnSquare == -15)
-                            {
-                                int pawnDestination = blackPawnSquare + blackPawnDelta[2];
-                                int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
-                                Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
-                                movesList.Add(move);
-                            }
-                            if (enPassantSquare - blackPawnSquare == -17)
-                            {
-                                int pawnDestination = blackPawnSquare + blackPawnDelta[3];
-                                int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
-                                Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
-                                movesList.Add(move);
-                            }
-                        }
+                        //if (rank == 4)
+                        //{
+                        //    if (enPassantSquare - blackPawnSquare == -15)
+                        //    {
+                        //        int pawnDestination = blackPawnSquare + blackPawnDelta[2];
+                        //       int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                        //        Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
+                        //        movesList.Add(move);
+                        //    }
+                        //    if (enPassantSquare - blackPawnSquare == -17)
+                        //   {
+                        //        int pawnDestination = blackPawnSquare + blackPawnDelta[3];
+                        //        int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                        //        Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
+                        //        movesList.Add(move);
+                        //    }
+                        //}
                     }
                 }
             }
@@ -1015,7 +1030,7 @@
     {
         static void Main(string[] args)
         {
-            string startingPosition = "7k/8/1q3b2/3r4/2BQ2B1/3B4/1R3n2/K7";
+            string startingPosition = "8/8/8/8/8/pppppppp/PPPPPPPP/K6k";
             List<Move> moveList = new List<Move>();
             Console.WriteLine("What position do you want to set up to play?");
 
@@ -1024,7 +1039,7 @@
 
             moveList = newGame.generateMoves();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 14; i++)
             {
                 Console.WriteLine(moveList[i].start);
                 Console.WriteLine(moveList[i].destination);
