@@ -256,23 +256,23 @@ namespace Pebble
                                 }
                             }
                         }
-                        //if (rank == 5)
-                        //{
-                        //    if (enPassantSquare - whitePawnSquare == 15)
-                        //    {
-                        //        int pawnDestination = whitePawnSquare + whitePawnDelta[2];
-                        //        int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
-                        //        Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
-                        //        movesList.Add(move);
-                        //    }
-                        //    if (enPassantSquare - whitePawnSquare == 17)
-                        //    {
-                        //        int pawnDestination = whitePawnSquare + whitePawnDelta[3];
-                        //        int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
-                        //        Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
-                        //        movesList.Add(move);
-                        //    }
-                        //}
+                        if (rank == 5)
+                        { //En Passant
+                            if (enPassantSquare - whitePawnSquare == whitePawnDelta[2])
+                            {
+                                int pawnDestination = whitePawnSquare + whitePawnDelta[2];
+                                int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                            if (enPassantSquare - whitePawnSquare == whitePawnDelta[3])
+                            {
+                                int pawnDestination = whitePawnSquare + whitePawnDelta[3];
+                                int capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, whitePawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                        }
                     }
                 }
             }
