@@ -1120,7 +1120,10 @@ namespace Pebble
         {
             int squareIndex = 112;
 
-            for (int stringPosition = 0; stringPosition < position.Count(); stringPosition++)
+            string[] pos = position.Split(' ');
+            string currentPos = pos[0];
+
+            for (int stringPosition = 0; stringPosition < pos[0].Count(); stringPosition++)
             {
                 switch (position[stringPosition])
                 {
@@ -1176,7 +1179,7 @@ namespace Pebble
                         squareIndex -= 24;
                         break;
                     default: //Should be a number
-                        int emptySquares = position[stringPosition] - '0';
+                        int emptySquares = currentPos[stringPosition] - '0';
                         squareIndex += emptySquares;
                         break;
                 }
@@ -1190,7 +1193,7 @@ namespace Pebble
     {
         static void Main(string[] args)
         {
-            string startingPosition = "rqrbbnnq/PPPPPPPP/8/8/8/8/8/K6k";
+            string startingPosition = "2r3k1/1q1nbppp/r3p3/3pP3/pPpP4/P1Q2N2/2RN1PPP/2R4K b - b3 0 23";
             List<Move> moveList = new List<Move>();
             Console.WriteLine("What position do you want to set up to play?");
 
