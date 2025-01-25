@@ -78,7 +78,7 @@ namespace Pebble
         public Board()
         {
             board = new int[128];
-            sideToMove = 1; // White will be 1.  Black will be -1.
+            sideToMove = 0; // White will be 1.  Black will be -1.
             enPassantSquare = -1;
             halfMoves = 0;
             moves = 0;
@@ -387,23 +387,23 @@ namespace Pebble
                                 }
                             }
                         }
-                        //if (rank == 4)
-                        //{
-                        //    if (enPassantSquare - blackPawnSquare == -15)
-                        //    {
-                        //        int pawnDestination = blackPawnSquare + blackPawnDelta[2];
-                        //       int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
-                        //        Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
-                        //        movesList.Add(move);
-                        //    }
-                        //    if (enPassantSquare - blackPawnSquare == -17)
-                        //   {
-                        //        int pawnDestination = blackPawnSquare + blackPawnDelta[3];
-                        //        int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
-                        //        Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
-                        //        movesList.Add(move);
-                        //    }
-                        //}
+                        if (rank == 4)
+                        {
+                            if (enPassantSquare - blackPawnSquare == -15)
+                            {
+                                int pawnDestination = blackPawnSquare + blackPawnDelta[2];
+                                int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                            if (enPassantSquare - blackPawnSquare == -17)
+                            {
+                                int pawnDestination = blackPawnSquare + blackPawnDelta[3];
+                                int capturedPiece = (int)Pieces.White + (int)Pieces.Pawn;
+                                Move move = new Move((int)MoveType.EnPassant, blackPawnSquare, pawnDestination, capturedPiece);
+                                movesList.Add(move);
+                            }
+                        }
                     }
                 }
             }
@@ -1198,6 +1198,74 @@ namespace Pebble
             }
 
             //Castling Right go here
+            string castle = pos[2];
+            switch (castle)
+            {
+                case "KQkq":
+                    whiteCastlingRights = (int)CastlingRights.castleBoth;
+                    blackCastlingRights = (int)CastlingRights.castleBoth;
+                    break;
+                case "Kkq":
+                    whiteCastlingRights = (int)CastlingRights.castleKingside;
+                    blackCastlingRights = (int)CastlingRights.castleBoth;
+                    break;
+                case "Qkq":
+                    whiteCastlingRights = (int)CastlingRights.castleQueenside;
+                    blackCastlingRights = (int)CastlingRights.castleBoth;
+                    break;
+                case "kq":
+                    whiteCastlingRights = (int)CastlingRights.castleNone;
+                    blackCastlingRights = (int)CastlingRights.castleBoth;
+                    break;
+                case "KQk":
+                    whiteCastlingRights = (int)CastlingRights.castleBoth;
+                    blackCastlingRights = (int)CastlingRights.castleKingside;
+                    break;
+                case "KQq":
+                    whiteCastlingRights = (int)CastlingRights.castleBoth;
+                    blackCastlingRights = (int)CastlingRights.castleQueenside;
+                    break;
+                case "KQ":
+                    whiteCastlingRights = (int)CastlingRights.castleBoth;
+                    blackCastlingRights = (int)CastlingRights.castleNone;
+                    break;
+                case "K":
+                    whiteCastlingRights = (int)CastlingRights.castleKingside;
+                    blackCastlingRights = (int)CastlingRights.castleNone;
+                    break;
+                case "Q":
+                    whiteCastlingRights = (int)CastlingRights.castleQueenside;
+                    blackCastlingRights = (int)CastlingRights.castleNone;
+                    break;
+                case "k":
+                    whiteCastlingRights = (int)CastlingRights.castleNone;
+                    blackCastlingRights = (int)CastlingRights.castleKingside;
+                    break;
+                case "q":
+                    whiteCastlingRights = (int)CastlingRights.castleNone;
+                    blackCastlingRights = (int)CastlingRights.castleQueenside;
+                    break;
+                case "Kk":
+                    whiteCastlingRights = (int)CastlingRights.castleKingside;
+                    blackCastlingRights = (int)CastlingRights.castleKingside;
+                    break;
+                case "Kq":
+                    whiteCastlingRights = (int)CastlingRights.castleKingside;
+                    blackCastlingRights = (int)CastlingRights.castleQueenside;
+                    break;
+                case "Qk":
+                    whiteCastlingRights = (int)CastlingRights.castleQueenside;
+                    blackCastlingRights = (int)CastlingRights.castleKingside;
+                    break;
+                case "Qq":
+                    whiteCastlingRights = (int)CastlingRights.castleQueenside;
+                    blackCastlingRights = (int)CastlingRights.castleQueenside;
+                    break;
+                default:
+                    whiteCastlingRights = (int)CastlingRights.castleNone;
+                    blackCastlingRights = (int)CastlingRights.castleNone;
+                    break;
+            }
 
             //En Passant
             string enPassant = pos[3];
@@ -1278,7 +1346,7 @@ namespace Pebble
 
             moveList = newGame.generateMoves();
 
-            for (int i = 0; i < 56; i++)
+            for (int i = 0; i < 36; i++)
             {
                 Console.WriteLine(moveList[i].start);
                 Console.WriteLine(moveList[i].destination);
