@@ -273,22 +273,6 @@ namespace Pebble
                         //        movesList.Add(move);
                         //    }
                         //}
-                        //if (rank == 7)
-                        //{
-                        //    Move move;
-                        //    int pawnDestination = whitePawnSquare + whitePawnDelta[0];
-                        //    if (board[pawnDestination] == (int)Pieces.Empty)
-                        //    {
-                        //        move = new Move((int)MoveType.PromoteQueen, whitePawnSquare, pawnDestination, 0);
-                        //        movesList.Add(move);
-                        //        move = new Move((int)MoveType.PromoteRook, whitePawnSquare, pawnDestination, 0);
-                        //        movesList.Add(move);
-                        //        move = new Move((int)MoveType.PromoteBishop, whitePawnSquare, pawnDestination, 0);
-                        //        movesList.Add(move);
-                        //        move = new Move((int)MoveType.PromoteKnight, whitePawnSquare, pawnDestination, 0);
-                        //        movesList.Add(move);
-                        //    }
-                        //}
                     }
                 }
             }
