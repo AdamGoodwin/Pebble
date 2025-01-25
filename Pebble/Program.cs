@@ -33,7 +33,11 @@ namespace Pebble
         PromoteQueen,
         PromoteRook,
         PromoteBishop,
-        PromoteKnight
+        PromoteKnight,
+        PromoteCaptureQueen,
+        PromoteCaptureRook,
+        PromoteCaptureBishop,
+        PromoteCaptureKnight
     };
 
     public class Move
@@ -134,7 +138,26 @@ namespace Pebble
                                 int pawnDestination = whitePawnSquare + whitePawnDelta[i];
                                 if ((board[pawnDestination] & 0x88) == 0 && (board[pawnDestination] & (int)Pieces.Black) != 0)
                                 {
-                                    move = new Move((int)MoveType.Capture, whitePawnSquare, pawnDestination, 0);
+                                    int capturedPiece = 0;
+                                    switch (board[pawnDestination])
+                                    {
+                                        case (int)Pieces.Black + (int)Pieces.Pawn:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Knight:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Bishop:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Rook:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                            break;
+                                        case (int)Pieces.White + (int)Pieces.Queen:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                            break;
+                                    }
+                                    move = new Move((int)MoveType.Capture, whitePawnSquare, pawnDestination, capturedPiece);
                                     movesList.Add(move);
                                 }
                             }
@@ -153,12 +176,82 @@ namespace Pebble
                             {
                             }
 
+                            //Captures
                             for (int i = 2; i <= 3; i++)
                             {
                                 pawnDestination = whitePawnSquare + whitePawnDelta[i];
                                 if ((board[pawnDestination] & 0x88) == 0 && (board[pawnDestination] & (int)Pieces.Black) != 0)
                                 {
-                                    move = new Move((int)MoveType.Capture, whitePawnSquare, pawnDestination, 0);
+                                    int capturedPiece = 0;
+                                    switch (board[pawnDestination])
+                                    {
+                                        case (int)Pieces.Black + (int)Pieces.Pawn:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Pawn;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Knight:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Bishop:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Rook:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                            break;
+                                        case (int)Pieces.White + (int)Pieces.Queen:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                            break;
+                                    }
+                                    move = new Move((int)MoveType.Capture, whitePawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                }
+                            }
+                        }
+                        else if(rank == 7) //Promotion is next rank
+                        {
+                            //Reg Pawn Moves
+                            Move move;
+                            int pawnDestination = whitePawnSquare + whitePawnDelta[0];
+                            if (board[pawnDestination] == (int)Pieces.Empty)
+                            {
+                                move = new Move((int)MoveType.PromoteQueen, whitePawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                                move = new Move((int)MoveType.PromoteRook, whitePawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                                move = new Move((int)MoveType.PromoteBishop, whitePawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                                move = new Move((int)MoveType.PromoteKnight, whitePawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                            }
+
+                            //Captures
+                            for (int i = 2; i <= 3; i++)
+                            {
+                                pawnDestination = whitePawnSquare + whitePawnDelta[i];
+                                if ((board[pawnDestination] & 0x88) == 0 && (board[pawnDestination] & (int)Pieces.Black) != 0)
+                                {
+                                    int capturedPiece = 0;
+                                    switch (board[pawnDestination])
+                                    {
+                                        case (int)Pieces.Black + (int)Pieces.Knight:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Knight;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Bishop:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Bishop;
+                                            break;
+                                        case (int)Pieces.Black + (int)Pieces.Rook:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Rook;
+                                            break;
+                                        case (int)Pieces.White + (int)Pieces.Queen:
+                                            capturedPiece = (int)Pieces.Black + (int)Pieces.Queen;
+                                            break;
+                                    }
+                                    move = new Move((int)MoveType.PromoteCaptureQueen, whitePawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                    move = new Move((int)MoveType.PromoteCaptureRook, whitePawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                    move = new Move((int)MoveType.PromoteCaptureBishop, whitePawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                    move = new Move((int)MoveType.PromoteCaptureKnight, whitePawnSquare, pawnDestination, capturedPiece);
                                     movesList.Add(move);
                                 }
                             }
@@ -255,6 +348,56 @@ namespace Pebble
                                 if ((board[pawnDestination] & 0x88) == 0 && (board[pawnDestination] & (int)Pieces.White) != 0)
                                 {
                                     move = new Move((int)MoveType.Capture, blackPawnSquare, pawnDestination, 0);
+                                    movesList.Add(move);
+                                }
+                            }
+                        }
+                        else if (rank == 2) //Promotion is next rank
+                        {
+                            //Reg Pawn Moves
+                            Move move;
+                            int pawnDestination = blackPawnSquare + blackPawnDelta[0];
+                            if (board[pawnDestination] == (int)Pieces.Empty)
+                            {
+                                move = new Move((int)MoveType.PromoteQueen, blackPawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                                move = new Move((int)MoveType.PromoteRook, blackPawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                                move = new Move((int)MoveType.PromoteBishop, blackPawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                                move = new Move((int)MoveType.PromoteKnight, blackPawnSquare, pawnDestination, 0);
+                                movesList.Add(move);
+                            }
+
+                            //Captures
+                            for (int i = 2; i <= 3; i++)
+                            {
+                                pawnDestination = blackPawnSquare + blackPawnDelta[i];
+                                if ((board[pawnDestination] & 0x88) == 0 && (board[pawnDestination] & (int)Pieces.White) != 0)
+                                {
+                                    int capturedPiece = 0;
+                                    switch (board[pawnDestination])
+                                    {
+                                        case (int)Pieces.White + (int)Pieces.Knight:
+                                            capturedPiece = (int)Pieces.White + (int)Pieces.Knight;
+                                            break;
+                                        case (int)Pieces.White + (int)Pieces.Bishop:
+                                            capturedPiece = (int)Pieces.White + (int)Pieces.Bishop;
+                                            break;
+                                        case (int)Pieces.White + (int)Pieces.Rook:
+                                            capturedPiece = (int)Pieces.White + (int)Pieces.Rook;
+                                            break;
+                                        case (int)Pieces.White + (int)Pieces.Queen:
+                                            capturedPiece = (int)Pieces.White + (int)Pieces.Queen;
+                                            break;
+                                    }
+                                    move = new Move((int)MoveType.PromoteCaptureQueen, blackPawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                    move = new Move((int)MoveType.PromoteCaptureRook, blackPawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                    move = new Move((int)MoveType.PromoteCaptureBishop, blackPawnSquare, pawnDestination, capturedPiece);
+                                    movesList.Add(move);
+                                    move = new Move((int)MoveType.PromoteCaptureKnight, blackPawnSquare, pawnDestination, capturedPiece);
                                     movesList.Add(move);
                                 }
                             }
@@ -1063,7 +1206,7 @@ namespace Pebble
     {
         static void Main(string[] args)
         {
-            string startingPosition = "8/8/8/pppppppp/PPPPPPPP/8/8/K6k";
+            string startingPosition = "rqrbbnnq/PPPPPPPP/8/8/8/8/8/K6k";
             List<Move> moveList = new List<Move>();
             Console.WriteLine("What position do you want to set up to play?");
 
@@ -1072,7 +1215,7 @@ namespace Pebble
 
             moveList = newGame.generateMoves();
 
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < 56; i++)
             {
                 Console.WriteLine(moveList[i].start);
                 Console.WriteLine(moveList[i].destination);
