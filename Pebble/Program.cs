@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Headers;
 
 namespace Pebble
 {
@@ -1185,6 +1186,81 @@ namespace Pebble
                 }
 
             }
+
+            //Side to Move
+            if (pos[1].Equals('w'))
+            {
+                int sideToMove = 1; //White to Move
+            }
+            else
+            {
+                int sideToMove = -1; //Black to Move
+            }
+
+            //Castling Right go here
+
+            //En Passant
+            string enPassant = pos[3];
+            switch(enPassant[0])
+            {
+                case 'a':
+                    if (sideToMove == 1)
+                        enPassantSquare = 80;
+                    else
+                        enPassantSquare = 32;
+                    break;
+                case 'b':
+                    if (sideToMove == 1)
+                        enPassantSquare = 81;
+                    else
+                        enPassantSquare = 33;
+                    break;
+                case 'c':
+                    if (sideToMove == 1)
+                        enPassantSquare = 82;
+                    else
+                        enPassantSquare = 34;
+                    break;
+                case 'd':
+                    if (sideToMove == 1)
+                        enPassantSquare = 83;
+                    else
+                        enPassantSquare = 35;
+                    break;
+                case 'e':
+                    if (sideToMove == 1)
+                        enPassantSquare = 84;
+                    else
+                        enPassantSquare = 36;
+                    break;
+                case 'f':
+                    if (sideToMove == 1)
+                        enPassantSquare = 85;
+                    else
+                        enPassantSquare = 37;
+                    break;
+                case 'g':
+                    if (sideToMove == 1)
+                        enPassantSquare = 86;
+                    else
+                        enPassantSquare = 38;
+                    break;
+                case 'h':
+                    if (sideToMove == 1)
+                        enPassantSquare = 87;
+                    else
+                        enPassantSquare = 39;
+                    break;
+                default:
+                    enPassantSquare = -1;
+                    break;
+            }
+
+            //Half Move Clock
+            int halfMoves = Int32.Parse(pos[4]);
+
+            //Number of Full moves
+            int moves = Int32.Parse(pos[5]);
         }
     }
 
