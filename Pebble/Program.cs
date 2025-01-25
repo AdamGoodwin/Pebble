@@ -78,10 +78,14 @@ namespace Pebble
         public Board()
         {
             board = new int[128];
-            sideToMove = 0; // White will be 1.  Black will be -1.
-            enPassantSquare = -1;
+            sideToMove = 1; //White will be 1.  Black will be -1.
             halfMoves = 0;
             moves = 0;
+        }
+
+        public int changeMove()
+        {
+            return sideToMove * -1;
         }
 
         public List<Move> generateMoves()
@@ -1188,7 +1192,7 @@ namespace Pebble
             }
 
             //Side to Move
-            if (pos[1].Equals('w'))
+            if (pos[1].Equals("w"))
             {
                 int sideToMove = 1; //White to Move
             }
@@ -1337,7 +1341,7 @@ namespace Pebble
     {
         static void Main(string[] args)
         {
-            string startingPosition = "2r3k1/1q1nbppp/r3p3/3pP3/pPpP4/P1Q2N2/2RN1PPP/2R4K b - b3 0 23";
+            string startingPosition = "r1bqkbnr/ppp1pppp/2n5/2PpP3/8/8/PP1P1PPP/RNBQKBNR w KQkq d6 0 1";
             List<Move> moveList = new List<Move>();
             Console.WriteLine("What position do you want to set up to play?");
 
@@ -1351,7 +1355,6 @@ namespace Pebble
                 Console.WriteLine(moveList[i].start);
                 Console.WriteLine(moveList[i].destination);
             }
-            
             
             Console.ReadKey();
         }
