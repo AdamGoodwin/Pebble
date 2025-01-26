@@ -78,7 +78,7 @@ namespace Pebble
         public Board()
         {
             board = new int[128];
-            sideToMove = 1; //White will be 1.  Black will be -1.
+            sideToMove = 0; //White will be 1.  Black will be -1.
             halfMoves = 0;
             moves = 0;
         }
@@ -1194,11 +1194,11 @@ namespace Pebble
             //Side to Move
             if (pos[1].Equals("w"))
             {
-                int sideToMove = 1; //White to Move
+                sideToMove = 1; //White to Move
             }
             else
             {
-                int sideToMove = -1; //Black to Move
+                sideToMove = -1; //Black to Move
             }
 
             //Castling Right go here
