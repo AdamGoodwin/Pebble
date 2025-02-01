@@ -80,8 +80,14 @@
             moves = 0;
         }
 
+        void makeMove(Move move)
+        {
+            sideToMove = changeMove();
+        }
+
         public int changeMove()
         {
+
             return sideToMove * -1;
         }
 
