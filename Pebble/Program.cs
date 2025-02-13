@@ -87,7 +87,6 @@
 
         public int changeMove()
         {
-
             return sideToMove * -1;
         }
 
@@ -1120,6 +1119,22 @@
                 }
 
             }
+
+            if (sideToMove == 1)
+            {
+                position += " w";
+            }
+            else
+            {
+                position += " b";
+            }
+
+            //Castling Rights
+            //White
+            //Black
+            //En Passant
+            //Half-Moves
+            //Full Moves - incremented after Black's move
 
             return position;
         }
